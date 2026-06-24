@@ -40,13 +40,16 @@ def adicionar_tarefa(titulo, prioridade="media"):
     pass
 
 def listar_tarefas():
-    if not tarefas:
+    if len(tarefas) == 0:
         print("Não há tarefas cadastradas.")
         return
- 
-    for i, tarefa in enumerate(tarefas, start=1):
-        status = "[X]" if tarefa["concluida"] else " "
-        print(f'{i}. [{status}] {tarefa["titulo"]} (prioridade: {tarefa["prioridade"]})') 
+    else:
+        for index, itens in enumerate(tarefas, start=1):
+            if itens['concluida'] == True:
+                status = "[X]"
+            else:
+                status = "[ ]"
+            print(f"{index}. [{status}] {itens['titulo']} (prioridade: {itens['prioridade']})") 
 
     # TODO (Aula 1): percorra a lista de tarefas e exiba cada uma formatada
     pass
@@ -57,19 +60,14 @@ def listar_tarefas():
 # =====================================================================
 
 def concluir_tarefa(indice):
-    """
-    Marca como concluída a tarefa na posição `indice` (começando em 1).
-
-    Regras:
-        - Se `indice` for menor que 1 ou maior que o tamanho da lista,
-          exiba uma mensagem de erro ("Numero de tarefa invalido.") e
-          pare a função (return).
-        - Caso contrário, altere a chave "concluida" da tarefa para True
-          e exiba uma mensagem confirmando a conclusão.
-
-    Lembre-se: o índice exibido para o usuário começa em 1, mas listas em
-    Python começam em 0. Você vai precisar ajustar isso (indice - 1).
-    """
+    if itens < 1 or index>len(tarefas):
+        print("Número de tarefas inválido.")
+        return
+    else:
+        for index, itens in enumerate(tarefas, start=1):
+            if indice == index:
+                itens['concluída'] = True
+                print(f"Tarefa {index} concluída")   
     # TODO (Aula 2): valide o índice recebido
     # TODO (Aula 2): marque a tarefa como concluída
     # TODO (Aula 2): exiba uma mensagem de confirmação
@@ -78,6 +76,14 @@ def concluir_tarefa(indice):
 
 
 def remover_tarefa(indice):
+    if itens < 1 or index>len(tarefas):
+            print("Número de tarefas inválido.")
+            return
+    else:
+        for index, itens in enumerate(tarefas, start=1):
+            if indice == index:
+                    tarefas.pop(index-1)
+                    print(f"tarefa{index} apagada")
     """
     Remove da lista a tarefa na posição `indice` (começando em 1).
 
@@ -194,8 +200,10 @@ def exibir_menu():
     print("=== GERENCIADOR DE TAREFAS ===")
     print("1. Adicionar tarefa")
     print("2. Listar tarefas")
+    print("3. Concluir")
+    print("4. Remover")
+    print("5. Editar")
     print("7. Sair")
-    # TODO (Aula 1): adicione a opção "Sair" (vai virar a opção 7 ao final)
     # TODO (Aula 2): adicione as opções 3 (Concluir), 4 (Remover), 5 (Editar)
     # TODO (Aula 3): adicione a opção 6 (Listar pendentes) e renumere "Sair" para 7
 
@@ -235,6 +243,14 @@ def main():
 
         elif opcao == "2":
             listar_tarefas()
+
+        elif opcao == "3":
+            listar_tarefas()
+            opcao = int(input("Digite o número da tarefa a concluir: "))
+            try:
+                concluir_tarefa(opcao)
+            except ValueError:
+                print("Valor não numérico")
 
         elif opcao == "7":
             print("Encerrando o programa...")
